@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, KeyboardAvoidingView, ScrollView, Button } from 'react-native';
 
 import t from 'tcomb-form-native';
 
@@ -26,7 +26,7 @@ const formStyles = {
   controlLabel: {
     normal: {
       color: 'blue',
-      fontSize: 16,
+      fontSize: 15,
       marginBottom: 7,
       fontWeight: '600'
     },
@@ -55,7 +55,11 @@ const options = {
   stylesheet: formStyles,
 };
 
-export default class App extends React.Component {
+export default class HomeScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Welcome',
+  };
 
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value
@@ -63,19 +67,28 @@ export default class App extends React.Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
-      <View style={styles.container}>
-        <Text>Beautiful Add Doc Page</Text>
-        <Form style={{backgroundColor: 'red'}}
-          ref={input => this._form = input} // assign a ref
-          type={Document}
-          options={options}
+      <KeyboardAvoidingView behavior="padding" enabled>
+        <ScrollView>
+          <Text>Beautiful Add Doc Page</Text>
+          <Form style={{backgroundColor: 'red'}}
+            ref={input => this._form = input} // assign a ref
+            type={Document}
+            options={options}
+          />
+          <Button
+            title="Add Doc!"
+            onPress={this.handleSubmit}
+          />
+          <Button
+          title="Go to all docs"
+          onPress={() => navigate('AllDocs')}
         />
-        <Button
-          title="Add Doc!"
-          onPress={this.handleSubmit}
-        />
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
     );
   }
 }
@@ -88,3 +101,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
